@@ -28,8 +28,7 @@
                                                                                       \
     void prefix##_array_remove(name##Array *prefix##_array, size_t index);            \
                                                                                       \
-    type *prefix##_array_get(name##Array *prefix##_array, size_t index);              \
-    const type *prefix##_array_get_const(const name##Array *prefix##_array, size_t index);
+    type prefix##_array_get(name##Array *prefix##_array, size_t index);
 
 #define DEFINE_ARRAY_FUNCTIONS(prefix, name, type)                                            \
     static inline void prefix##_array_grow_impl(name##Array *prefix##_array);                 \
@@ -175,7 +174,7 @@
         prefix##_array->count--;                                                              \
     }                                                                                         \
                                                                                               \
-    type *prefix##_array_get(name##Array *prefix##_array, size_t index)                       \
+    type prefix##_array_get(name##Array *prefix##_array, size_t index)                        \
     {                                                                                         \
         if (prefix##_array->count == 0)                                                       \
         {                                                                                     \
@@ -193,27 +192,7 @@
             exit(EXIT_FAILURE);                                                               \
         }                                                                                     \
                                                                                               \
-        return &prefix##_array->data[index];                                                  \
-    }                                                                                         \
-                                                                                              \
-    const type *prefix##_array_get_const(const name##Array *prefix##_array, size_t index)     \
-    {                                                                                         \
-        if (prefix##_array->count == 0)                                                       \
-        {                                                                                     \
-            fprintf(stderr, #prefix "_array_get_const: array is empty (count 0)\n");          \
-            exit(EXIT_FAILURE);                                                               \
-        }                                                                                     \
-                                                                                              \
-        if (index >= prefix##_array->count)                                                   \
-        {                                                                                     \
-            fprintf(                                                                          \
-                stderr,                                                                       \
-                #prefix "_array_get_const: index (%zu) out of bounds (%zu)\n",                \
-                index,                                                                        \
-                prefix##_array->count);                                                       \
-            exit(EXIT_FAILURE);                                                               \
-        }                                                                                     \
-        return (const type *)&prefix##_array->data[index];                                    \
+        return prefix##_array->data[index];                                                   \
     }                                                                                         \
                                                                                               \
     static inline void prefix##_array_grow_impl(name##Array *prefix##_array)                  \
