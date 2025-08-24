@@ -25,10 +25,9 @@
     void prefix##_array_push(name##Array *prefix##_array, type item);                 \
     void prefix##_array_insert(name##Array *prefix##_array, size_t index, type item); \
     void prefix##_array_set(name##Array *prefix##_array, size_t index, type item);    \
-                                                                                      \
     void prefix##_array_remove(name##Array *prefix##_array, size_t index);            \
-                                                                                      \
-    type prefix##_array_get(name##Array *prefix##_array, size_t index);
+    type prefix##_array_get(name##Array *prefix##_array, size_t index);               \
+    void prefix##_array_clear(name##Array *prefix##_array);
 
 #define DEFINE_ARRAY_FUNCTIONS(prefix, name, type)                                            \
     static inline void prefix##_array_grow_impl(name##Array *prefix##_array);                 \
@@ -193,6 +192,11 @@
         }                                                                                     \
                                                                                               \
         return prefix##_array->data[index];                                                   \
+    }                                                                                         \
+                                                                                              \
+    void prefix##_array_clear(name##Array *prefix##_array)                                    \
+    {                                                                                         \
+        prefix##_array->count = 0;                                                            \
     }                                                                                         \
                                                                                               \
     static inline void prefix##_array_grow_impl(name##Array *prefix##_array)                  \
